@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "787770607413",
+    "firebase_url": "https://kravegymnew.firebaseio.com",
+    "project_id": "kravegymnew",
+    "storage_bucket": "kravegymnew.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787770607413:android:f5af3f4f165a7665",
+        "android_client_info": {
+          "package_name": "com.example.andrewdaniels.danielsandrew_kravegymandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787770607413-g5vfgitkll3mbidlt1i6n3jbg7oa55h8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.andrewdaniels.danielsandrew_kravegymandroid",
+            "certificate_hash": "f8ebda0d96fb306d4f0f33ce56e5b27460bb9e87"
+          }
+        },
+        {
+          "client_id": "787770607413-ul8k0t6kbbc0o4h4s3mt6e83oq58kgn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaHrzMAYv220p28ecrrsL1hmyum2Bkk1U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787770607413-ul8k0t6kbbc0o4h4s3mt6e83oq58kgn1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "787770607413-1j6gjtml3ilhf57ma671fshvj53fnoug.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.KraveGymPrototype"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
