@@ -13,4 +13,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="username">Phone Number</string>
+    <string name="first">First Name</string>
+    <string name="last">Last Name</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm Password</string>
+    <string name="account_type">Account Type</string>
+    <string name="already_account">Already have an account?</string>
+    <string name="click_here">Click here</string>
+    <string name="register">Register</string>
+    <string name="create_account">Create Account</string>
+    <string-array name="account_types">
+        <item>Trainer</item>
+    </string-array>
 </resources>
