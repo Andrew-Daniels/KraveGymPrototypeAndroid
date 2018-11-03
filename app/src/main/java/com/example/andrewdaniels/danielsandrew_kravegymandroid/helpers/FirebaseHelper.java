@@ -54,7 +54,7 @@ public class FirebaseHelper {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Account value = dataSnapshot.getValue(Account.class);
 
-                if (Objects.requireNonNull(value).getPassword().equals(password)) {
+                if (value != null && value.getPassword().equals(password)) {
                     callback.onCallback(LOGIN, true);
                 } else {
                     callback.onCallback(LOGIN, false);
