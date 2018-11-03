@@ -23,6 +23,13 @@
     <string name="click_here">Click here</string>
     <string name="register">Register</string>
     <string name="create_account">Create Account</string>
+    <string name="numbers_only">Phone number can only contain numbers.</string>
+    <string name="phone_10">Phone number must contain 10 digits.</string>
+    <string name="field_blank">Field cannot be left blank.</string>
+    <string name="pass_minimum">Password must be 4 characters at minimum.</string>
+    <string name="pass_match">Passwords do not match.</string>
+    <string name="login">Login</string>
+    <string name="need_an_account">Need an account?</string>
     <string-array name="account_types">
         <item>Trainer</item>
     </string-array>
