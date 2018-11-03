@@ -1,7 +1,5 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.DatabaseContext;
 
-import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
 //@IgnoreExtraProperties

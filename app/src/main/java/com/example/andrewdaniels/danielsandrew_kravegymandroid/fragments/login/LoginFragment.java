@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelp
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.LoginListener;
+
+import java.util.Objects;
 
 import static com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ValidationHelper.isPasswordValid;
 import static com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ValidationHelper.isPhoneValid;
@@ -61,7 +62,7 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
         }
     }
 
-    View.OnClickListener btnClicked = new View.OnClickListener() {
+    private final View.OnClickListener btnClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch(v.getId()) {
@@ -84,7 +85,7 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
 
         String errorKey;
 
-        TextView field = v.findViewById(R.id.et_phone);
+        TextView field = Objects.requireNonNull(v).findViewById(R.id.et_phone);
         phone = field.getText().toString();
         errorKey = isPhoneValid(phone);
         if (ErrorHelper.setErrorOnField(getActivity(), field, errorKey)) {

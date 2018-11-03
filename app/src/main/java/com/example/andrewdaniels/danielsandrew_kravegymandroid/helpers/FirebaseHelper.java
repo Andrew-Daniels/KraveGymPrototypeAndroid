@@ -9,15 +9,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.util.HashMap;
 
-import java.lang.reflect.Array;
 import java.util.Objects;
 
 public class FirebaseHelper {
 
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static DatabaseReference ref = database.getReference();
+    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final DatabaseReference ref = database.getReference();
 
     public static final String CREATE_ACCOUNT = "FirebaseHelper.CREATE_ACCOUNT";
     public static final String LOGIN = "FirebaseHelper.LOGIN";
