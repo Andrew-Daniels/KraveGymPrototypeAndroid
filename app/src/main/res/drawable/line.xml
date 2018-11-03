@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<item>
-    <shape
-        android:shape="line"
-        android:thickness="1dp">
-        <stroke android:width="10dp" android:color="@color/colorAccent"/>
-    </shape>
-</item>
+    <item android:left="0dp"
+        android:right="250dp">
+        <shape android:shape="line">
+
+            <stroke android:color="@color/colorPrimary"
+                android:width="3dp"/>
+            <size android:width="150dp"/>
+        </shape>
+    </item>
 </selector>
