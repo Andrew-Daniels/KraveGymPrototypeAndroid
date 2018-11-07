@@ -1,4 +1,4 @@
-package com.example.andrewdaniels.danielsandrew_kravegymandroid.DatabaseContext;
+package com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext;
 
 import com.google.firebase.database.PropertyName;
 

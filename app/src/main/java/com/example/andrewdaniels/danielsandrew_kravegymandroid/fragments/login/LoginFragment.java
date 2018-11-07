@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.ClassActivity;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.R;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
@@ -113,7 +114,8 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
                     boolean accountCreated = (Boolean)data;
 
                     if (accountCreated) {
-                        Toast.makeText(getActivity(), "Logged In", Toast.LENGTH_SHORT).show();
+                        delegate.setUID(mUID);
+                        delegate.navigateTo(ClassActivity.TAG);
                     } else {
                         Toast.makeText(getActivity(), "Not Logged In", Toast.LENGTH_SHORT).show();
                     }

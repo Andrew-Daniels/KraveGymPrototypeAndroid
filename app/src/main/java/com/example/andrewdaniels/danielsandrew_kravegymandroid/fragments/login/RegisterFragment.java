@@ -2,6 +2,7 @@ package com.example.andrewdaniels.danielsandrew_kravegymandroid.fragments.login;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.ClassActivity;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.R;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
@@ -138,7 +140,8 @@ public class RegisterFragment extends Fragment implements FirebaseCallback {
                     boolean accountCreated = (Boolean)data;
 
                     if (accountCreated) {
-                        Toast.makeText(getActivity(), "Account Created", Toast.LENGTH_SHORT).show();
+                        delegate.setUID(mUID);
+                        delegate.navigateTo(ClassActivity.TAG);
                     } else {
                         Toast.makeText(getActivity(), "Account not created", Toast.LENGTH_SHORT).show();
                     }

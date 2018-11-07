@@ -1,5 +1,6 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.LoginL
 public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private final int mLoginContainer = R.id.login_container;
+    private String mUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,18 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             case RegisterFragment.TAG:
                 setupRegister();
                 break;
+            case ClassActivity.TAG:
+                Intent loginIntent = new Intent(this, ClassActivity.class);
+                loginIntent.setAction(ClassActivity.LOGGED_IN_ACTION);
+                loginIntent.putExtra(ClassActivity.LOGGED_IN_UID_EXTRA, mUID);
+                startActivity(loginIntent);
+                break;
         }
+    }
+
+    @Override
+    public void setUID(String uid) {
+        mUID = uid;
     }
 }
 
