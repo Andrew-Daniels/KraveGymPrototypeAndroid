@@ -65,9 +65,10 @@ public class ClassAdapter extends BaseAdapter {
         }
 
         Athlete a = mModel.get(position);
-
-        //TODO: Setup vhi.profileImage with image from athlete.
-
+        vhi.profileImage.setTag(a);
+        if (a.getProfileImage() != null) {
+            vhi.profileImage.setImageBitmap(a.getProfileImage());
+        }
         return convertView;
     }
 }

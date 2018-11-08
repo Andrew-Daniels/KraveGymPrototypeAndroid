@@ -8,8 +8,7 @@ import com.google.firebase.database.PropertyName;
 
 public class Athlete extends Account {
     private String username;
-    private Image profileImage;
-    private String profileImageString;
+    private Bitmap profileImage;
 
     public Athlete() {
     }
@@ -23,19 +22,11 @@ public class Athlete extends Account {
         return username;
     }
 
-    public Image getProfileImage() {
+    public Bitmap getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(Image profileImage) {
+    public void setProfileImage(Bitmap profileImage) {
         this.profileImage = profileImage;
-    }
-
-    public String getProfileImageString() {
-        return profileImageString;
-    }
-
-    public void setProfileImageString(String profileImageString) {
-        this.profileImageString = profileImageString;
     }
 }

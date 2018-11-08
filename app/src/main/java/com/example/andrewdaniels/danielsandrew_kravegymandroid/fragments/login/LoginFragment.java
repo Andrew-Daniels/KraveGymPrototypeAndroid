@@ -2,8 +2,10 @@ package com.example.andrewdaniels.danielsandrew_kravegymandroid.fragments.login;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.ClassActivity;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.R;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
@@ -61,6 +64,9 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
             btn = v.findViewById(R.id.tv_nav_register);
             btn.setOnClickListener(btnClicked);
         }
+        Athlete test = new Athlete();
+        test.setUsername("4123590221");
+        FirebaseHelper.downloadProfileImage(this, test);
     }
 
     private final View.OnClickListener btnClicked = new View.OnClickListener() {
