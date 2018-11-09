@@ -22,6 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Objects;
 
@@ -106,7 +107,6 @@ public class FirebaseHelper {
 
     public static void retrieveClass(final FirebaseCallback callback, String classType) {
 
-        //delegate = callback;
         switch(classType) {
             case CLASS_TYPE_CURRENT:
                 String currentDateAndTime = "041320180600";
@@ -145,7 +145,7 @@ public class FirebaseHelper {
                 case CLASS_TYPE_ALL:
                     GenericTypeIndicator<HashMap<String, Athlete>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, Athlete>>() {};
                     Map<String, Athlete> athletesMap = dataSnapshot.getValue(objectsGTypeInd);
-                    ArrayList<Athlete> athletes = new ArrayList<>();
+                    List<Athlete> athletes = new ArrayList<>();
 
                     if (athletesMap == null) { return; }
 
@@ -169,9 +169,12 @@ public class FirebaseHelper {
         @Override
         public void onSuccess(byte[] bytes) {
             Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            if (image != null) {
+            //Bitmap scaledImage = Bitmap.createScaledBitmap(image, 200, 200, false);
+            Bitmap scaledImage = BitmapHelper.scaleBitmapAndKeepRatio(image, 300, 200);
+            //image.recycle();
+            if (scaledImage != null) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(DOWNLOAD_PROFILE_IMAGE, image);
+                bundle.putParcelable(DOWNLOAD_PROFILE_IMAGE, scaledImage);
                 bundle.putString(PROFILE_IMAGE_UID, mUID);
                 delegate.onCallback(DOWNLOAD_PROFILE_IMAGE, bundle);
             }

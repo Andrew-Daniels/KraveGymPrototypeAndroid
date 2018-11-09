@@ -8,19 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.R;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.StringFormatter;
 
 public class ClassAdapter extends BaseAdapter {
 
-    private ArrayList<Athlete> mModel;
+    private List<Athlete> mModel;
     private LayoutInflater mInflator;
     private int mLayoutID;
 
-    public ClassAdapter(Context context, ArrayList<Athlete> mModel, int mLayoutID) {
+    public ClassAdapter(Context context, List<Athlete> mModel, int mLayoutID) {
         this.mModel = mModel;
         this.mLayoutID = mLayoutID;
 
@@ -28,10 +31,12 @@ public class ClassAdapter extends BaseAdapter {
     }
 
     private class ViewHolderItem {
-        public ImageView profileImage;
+        private ImageView profileImage;
+        private TextView initials;
 
-        public ViewHolderItem(View v) {
+        private ViewHolderItem(View v) {
             profileImage = v.findViewById(R.id.iv_athlete);
+            initials = v.findViewById(R.id.tv_initials);
         }
     }
 
@@ -68,7 +73,11 @@ public class ClassAdapter extends BaseAdapter {
         vhi.profileImage.setTag(a);
         if (a.getProfileImage() != null) {
             vhi.profileImage.setImageBitmap(a.getProfileImage());
+            vhi.initials.setText("");
+        } else {
+            vhi.initials.setText(StringFormatter.getInitials(a));
         }
+        vhi.profileImage.setClipToOutline(true);
         return convertView;
     }
 }

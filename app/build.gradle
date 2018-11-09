@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.google.firebase:firebase-database:16.0.4'
     implementation 'com.google.firebase:firebase-storage:16.0.4'
+    implementation 'com.google.guava:guava-collections:r03'
 }
 
 apply plugin: 'com.google.gms.google-services'

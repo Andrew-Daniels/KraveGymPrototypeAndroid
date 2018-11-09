@@ -1,5 +1,7 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers;
 
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+
 import static com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper.NAME_BLANK;
 import static com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper.PASSWORD_4_CHARS;
 import static com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.ErrorHelper.PASSWORD_NO_MATCH;
@@ -31,5 +33,15 @@ public class ValidationHelper {
             return NAME_BLANK;
         }
         return null;
+    }
+
+    public static boolean nameContainsSearchText(Athlete athlete, String searchText) {
+
+        String fullname = athlete.getFirst().concat(" ").concat(athlete.getLast()).toLowerCase();
+        searchText = searchText.toLowerCase();
+
+        return (athlete.getFirst().toLowerCase().contains(searchText) ||
+                athlete.getLast().toLowerCase().contains(searchText) ||
+                fullname.contains(searchText));
     }
 }
