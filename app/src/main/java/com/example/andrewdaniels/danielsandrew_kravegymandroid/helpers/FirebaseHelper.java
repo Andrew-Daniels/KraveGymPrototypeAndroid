@@ -1,7 +1,9 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
@@ -169,9 +171,7 @@ public class FirebaseHelper {
         @Override
         public void onSuccess(byte[] bytes) {
             Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            //Bitmap scaledImage = Bitmap.createScaledBitmap(image, 200, 200, false);
             Bitmap scaledImage = BitmapHelper.scaleBitmapAndKeepRatio(image, 300, 200);
-            //image.recycle();
             if (scaledImage != null) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(DOWNLOAD_PROFILE_IMAGE, scaledImage);

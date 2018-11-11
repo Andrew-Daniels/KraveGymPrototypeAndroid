@@ -5,9 +5,13 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -20,7 +24,7 @@ import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.Fireba
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
-public class ClassActivity extends AppCompatActivity implements FirebaseCallback, View.OnClickListener, SearchView.OnQueryTextListener {
+public class ClassActivity extends AppCompatActivity implements FirebaseCallback, View.OnClickListener, SearchView.OnQueryTextListener, GridView.OnItemClickListener {
 
     public static final String TAG = "ClassActivity.TAG";
     private String mUID;
@@ -55,7 +59,30 @@ public class ClassActivity extends AppCompatActivity implements FirebaseCallback
         FirebaseHelper.retrieveClass(this, FirebaseHelper.CLASS_TYPE_CURRENT);
         findViewById(R.id.btn_current_class).setOnClickListener(this);
         findViewById(R.id.btn_all).setOnClickListener(this);
-        ((SearchView)findViewById(R.id.sv_class)).setOnQueryTextListener(this);
+        ((GridView)findViewById(R.id.gv_class)).setOnItemClickListener(this);
+        SearchView v = findViewById(R.id.sv_class);
+        v.setOnQueryTextListener(this);
+        v.setOnClickListener(this);
+    }
+
+    private void handleSegmentedButtonClick(int buttonId) {
+        int colorPrimaryDark = getResources().getColor(R.color.colorPrimaryDark);
+        int colorPrimary = getResources().getColor(R.color.colorPrimary);
+        switch(buttonId) {
+            case R.id.btn_current_class:
+                TextView a = findViewById(R.id.btn_all);
+                a.setBackgroundColor(colorPrimary);
+                a.setTextColor(colorPrimaryDark);
+                break;
+            case R.id.btn_all:
+                TextView b = findViewById(R.id.btn_current_class);
+                b.setBackgroundColor(colorPrimary);
+                b.setTextColor(colorPrimaryDark);
+                break;
+        }
+        TextView c = findViewById(buttonId);
+        c.setBackgroundColor(colorPrimaryDark);
+        c.setTextColor(colorPrimary);
     }
 
     private void setupGridView() {
@@ -116,13 +143,18 @@ public class ClassActivity extends AppCompatActivity implements FirebaseCallback
                 if (classState != ClassState.CURRENT) {
                     classState = ClassState.CURRENT;
                     FirebaseHelper.retrieveClass(this, FirebaseHelper.CLASS_TYPE_CURRENT);
+                    handleSegmentedButtonClick(v.getId());
                 }
                 break;
             case R.id.btn_all:
                 if (classState != ClassState.ALL) {
                     classState = ClassState.ALL;
                     FirebaseHelper.retrieveClass(this, FirebaseHelper.CLASS_TYPE_ALL);
+                    handleSegmentedButtonClick(v.getId());
                 }
+                break;
+            case R.id.sv_class:
+                ((SearchView)v).setIconified(false);
                 break;
         }
     }
@@ -183,5 +215,32 @@ public class ClassActivity extends AppCompatActivity implements FirebaseCallback
         if ((oldModelFiltered == null && mModelFiltered != null) || mModelFiltered != null && !oldModelFiltered.equals(mModelFiltered)) {
             notifyDataSetChanged(mModelFiltered);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_class, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.btn_logout:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        List<Athlete> model = mModelFiltered != null ? mModelFiltered : mModel;
+
+        Athlete a =  model.get(position);
+
+        Intent workoutIntent = new Intent(this, WorkoutActivity.class);
+        workoutIntent.setAction(WorkoutActivity.START_WORKOUT_ACTION);
+        workoutIntent.putExtra(WorkoutActivity.SELECTED_ATHLETE_EXTRA, a);
+        startActivity(workoutIntent);
     }
 }

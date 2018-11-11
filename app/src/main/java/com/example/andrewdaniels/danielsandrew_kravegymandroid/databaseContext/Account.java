@@ -2,8 +2,10 @@ package com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext;
 
 import com.google.firebase.database.PropertyName;
 
+import java.io.Serializable;
+
 //@IgnoreExtraProperties
-public class Account {
+public class Account implements Serializable {
 
 
     private String first;

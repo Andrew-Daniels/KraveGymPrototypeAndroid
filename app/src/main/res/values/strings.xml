@@ -20,6 +20,8 @@
     <string name="all">All</string>
     <string name="current_class">Current Class</string>
     <string name="dummy_initials">AD</string>
+    <string name="logout">Logout</string>
+    <string name="fileprovider_authority">com.example.andrewdaniels.danielsandrew_kravegymandroid.fileprovider</string>
     <string-array name="account_types">
         <item>Trainer</item>
     </string-array>
