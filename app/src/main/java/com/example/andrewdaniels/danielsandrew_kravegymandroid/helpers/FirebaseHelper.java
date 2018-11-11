@@ -1,16 +1,12 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Account;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -139,7 +135,7 @@ public class FirebaseHelper {
         }
     }
 
-    private ValueEventListener listener = new ValueEventListener() {
+    private final ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             switch(mCurrentWork) {
@@ -167,16 +163,14 @@ public class FirebaseHelper {
         }
     };
 
-    private OnSuccessListener<byte[]> storageListener =  new OnSuccessListener<byte[]>() {
+    private final OnSuccessListener<byte[]> storageListener =  new OnSuccessListener<byte[]>() {
         @Override
         public void onSuccess(byte[] bytes) {
             Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            Bitmap scaledImage = BitmapHelper.scaleBitmapAndKeepRatio(image, 300, 200);
-            if (scaledImage != null) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(DOWNLOAD_PROFILE_IMAGE, scaledImage);
-                bundle.putString(PROFILE_IMAGE_UID, mUID);
-                delegate.onCallback(DOWNLOAD_PROFILE_IMAGE, bundle);
+            boolean imageSaved = BitmapHelper.scaleBitmapAndKeepRatio(delegate, mUID, image, 300, 200);
+            //TODO: Get Uri here instead of scaledImage
+            if (imageSaved) {
+                delegate.onCallback(DOWNLOAD_PROFILE_IMAGE, mUID);
             }
         }
     };

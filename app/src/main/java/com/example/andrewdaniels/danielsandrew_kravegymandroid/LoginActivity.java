@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
 
-import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.fragments.login.LoginFragment;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.fragments.login.RegisterFragment;
-import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.LoginListener;
 
 /**
@@ -68,5 +66,6 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     public void setUID(String uid) {
         mUID = uid;
     }
+
 }
 

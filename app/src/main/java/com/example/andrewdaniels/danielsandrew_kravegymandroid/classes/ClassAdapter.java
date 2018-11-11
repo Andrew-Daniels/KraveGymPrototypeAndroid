@@ -1,8 +1,7 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.classes;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.text.Layout;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,28 +10,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.R;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.BitmapHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.StringFormatter;
 
 public class ClassAdapter extends BaseAdapter {
 
-    private List<Athlete> mModel;
-    private LayoutInflater mInflator;
-    private int mLayoutID;
+    private final List<Athlete> mModel;
+    private final LayoutInflater mInflator;
+    private final int mLayoutID;
+    private final Context mContext;
 
     public ClassAdapter(Context context, List<Athlete> mModel, int mLayoutID) {
         this.mModel = mModel;
         this.mLayoutID = mLayoutID;
-
+        this.mContext = context;
         this.mInflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private class ViewHolderItem {
-        private ImageView profileImage;
-        private TextView initials;
+        private final ImageView profileImage;
+        private final TextView initials;
 
         private ViewHolderItem(View v) {
             profileImage = v.findViewById(R.id.iv_athlete);
@@ -71,8 +71,9 @@ public class ClassAdapter extends BaseAdapter {
 
         Athlete a = mModel.get(position);
         vhi.profileImage.setTag(a);
-        if (a.getProfileImage() != null) {
-            vhi.profileImage.setImageBitmap(a.getProfileImage());
+        if (a.hasProfileImage()) {
+            Bitmap profileImage = BitmapHelper.loadImage(mContext, a.getUsername());
+            vhi.profileImage.setImageBitmap(profileImage);
             vhi.initials.setText("");
         } else {
             vhi.initials.setText(StringFormatter.getInitials(a));

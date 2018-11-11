@@ -1,7 +1,7 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -103,19 +103,18 @@ public class ClassActivity extends AppCompatActivity implements FirebaseCallback
                 if (mModel != null && mModel.size() > 0) {
                     setupGridView();
                     for (Athlete athlete: mModel) {
-                        FirebaseHelper.downloadProfileImage(this, athlete);
+                        if (!athlete.checkForExistingProfilePicture(this)) {
+                            FirebaseHelper.downloadProfileImage(this, athlete);
+                        }
                     }
                 }
                 break;
             case FirebaseHelper.DOWNLOAD_PROFILE_IMAGE:
-                if (data instanceof Bundle) {
-                    Bundle bundle = (Bundle)data;
-
-                    Bitmap image = bundle.getParcelable(FirebaseHelper.DOWNLOAD_PROFILE_IMAGE);
-                    String username = bundle.getString(FirebaseHelper.PROFILE_IMAGE_UID);
+                if (data instanceof String) {
+                    String username = (String)data;
                     for (Athlete athlete: mModel) {
                         if (athlete.getUsername().equals(username)) {
-                            athlete.setProfileImage(image);
+                            athlete.setHasProfileImage(true);
                             notifyDataSetChanged();
                         }
                     }
@@ -242,5 +241,10 @@ public class ClassActivity extends AppCompatActivity implements FirebaseCallback
         workoutIntent.setAction(WorkoutActivity.START_WORKOUT_ACTION);
         workoutIntent.putExtra(WorkoutActivity.SELECTED_ATHLETE_EXTRA, a);
         startActivity(workoutIntent);
+    }
+
+    @Override
+    public Context getCallbackContext() {
+        return this;
     }
 }

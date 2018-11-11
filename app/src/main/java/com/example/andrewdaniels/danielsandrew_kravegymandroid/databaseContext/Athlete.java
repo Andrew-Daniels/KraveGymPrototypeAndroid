@@ -1,14 +1,12 @@
 package com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext;
 
-import android.graphics.Bitmap;
-import android.media.Image;
+import android.content.Context;
 
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.PropertyName;
+import java.io.File;
 
 public class Athlete extends Account {
     private String username;
-    private Bitmap profileImage;
+    private boolean hasProfileImage;
 
     public Athlete() {
     }
@@ -22,11 +20,19 @@ public class Athlete extends Account {
         return username;
     }
 
-    public Bitmap getProfileImage() {
-        return profileImage;
+    public boolean hasProfileImage() {
+        return hasProfileImage;
     }
 
-    public void setProfileImage(Bitmap profileImage) {
-        this.profileImage = profileImage;
+    public void setHasProfileImage(boolean hasProfileImage) {
+        this.hasProfileImage = hasProfileImage;
+    }
+
+    public boolean checkForExistingProfilePicture(Context c) {
+        File localStorage = c.getFilesDir();
+
+        File imageToSave = new File(localStorage, username);
+        hasProfileImage = imageToSave.exists();
+        return hasProfileImage;
     }
 }
