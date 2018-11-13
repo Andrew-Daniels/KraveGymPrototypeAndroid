@@ -20,7 +20,6 @@ public class BitmapHelper {
         matrix.setRectToRect(new RectF(0, 0, fullsizeImage.getWidth(), fullsizeImage.getHeight()), new RectF(0, 0, reqWidthInPixels, reqHeightInPixels), Matrix.ScaleToFit.CENTER);
         Bitmap scaledBitmap = Bitmap.createBitmap(fullsizeImage, 0, 0, fullsizeImage.getWidth(), fullsizeImage.getHeight(), matrix, true);
         fullsizeImage.recycle();
-        //TODO: Return Uri here
         Context c = callback.getCallbackContext();
         return saveImage(c, username, scaledBitmap);
     }

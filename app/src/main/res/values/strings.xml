@@ -22,6 +22,9 @@
     <string name="dummy_initials">AD</string>
     <string name="logout">Logout</string>
     <string name="fileprovider_authority">com.example.andrewdaniels.danielsandrew_kravegymandroid.fileprovider</string>
+    <string name="save">Save</string>
+    <string name="wrong_u_or_p">Wrong username or password.</string>
+    <string name="acc_exists">Account already exists</string>
     <string-array name="account_types">
         <item>Trainer</item>
     </string-array>

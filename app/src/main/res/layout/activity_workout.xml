@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <ListView
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/lv_workout_log"
+        android:layout_width="match_parent"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="10dp"
+        android:stretchColumns="*">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:weightSum="2">
+            <NumberPicker
+                android:id="@+id/pkr_workout_muscle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/WorkoutPicker"
+                android:descendantFocusability="blocksDescendants"
+                />
+            <NumberPicker
+                android:id="@+id/pkr_workout_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
+                style="@style/WorkoutPicker"
+                />
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

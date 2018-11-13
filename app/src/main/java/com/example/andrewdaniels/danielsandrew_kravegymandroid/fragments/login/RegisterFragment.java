@@ -142,7 +142,7 @@ public class RegisterFragment extends Fragment implements FirebaseCallback {
                         delegate.setUID(mUID);
                         delegate.navigateTo(ClassActivity.TAG);
                     } else {
-                        Toast.makeText(getActivity(), "Account not created", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.acc_exists, Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

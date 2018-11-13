@@ -43,6 +43,7 @@ public class FirebaseHelper {
     public static final String CLASS_TYPE_CURRENT = "FirebaseHelper.CLASS_TYPE_CURRENT";
     public static final String DOWNLOAD_PROFILE_IMAGE = "FirebaseHelper.DOWNLOAD_PROFILE_IMAGE";
     public static final String PROFILE_IMAGE_UID = "FirebaseHelper.PROFILE_IMAGE_UID";
+    public static final String WORKOUT_CATEGORIES = "FirebaseHelper.WORKOUT_CATEGORIES";
 
     private FirebaseHelper(FirebaseCallback callback, String currentWork) {
         mCurrentWork = currentWork;
@@ -135,6 +136,24 @@ public class FirebaseHelper {
         }
     }
 
+    public static void getWorkoutCategories(final FirebaseCallback callback) {
+        final String basePath = "Workouts";
+
+        ref.child(basePath).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<HashMap<String, HashMap<String, String>>> objectsGTypeInd = new GenericTypeIndicator<HashMap<String, HashMap<String, String>>>() {};
+                HashMap<String, HashMap<String, String>> categoriesMap = dataSnapshot.getValue(objectsGTypeInd);
+                callback.onCallback(WORKOUT_CATEGORIES, categoriesMap);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private final ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -168,7 +187,6 @@ public class FirebaseHelper {
         public void onSuccess(byte[] bytes) {
             Bitmap image = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
             boolean imageSaved = BitmapHelper.scaleBitmapAndKeepRatio(delegate, mUID, image, 300, 200);
-            //TODO: Get Uri here instead of scaledImage
             if (imageSaved) {
                 delegate.onCallback(DOWNLOAD_PROFILE_IMAGE, mUID);
             }

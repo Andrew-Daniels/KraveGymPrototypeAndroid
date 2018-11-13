@@ -108,13 +108,6 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-
-            <!--<NumberPicker-->
-                <!--android:id="@+id/pkr_workout"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--style="@style/WorkoutPicker"-->
-                <!--/>-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

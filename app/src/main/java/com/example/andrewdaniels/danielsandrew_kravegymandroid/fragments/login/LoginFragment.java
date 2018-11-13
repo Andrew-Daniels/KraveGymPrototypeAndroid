@@ -60,16 +60,7 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
             btn.setOnClickListener(btnClicked);
             btn = v.findViewById(R.id.tv_nav_register);
             btn.setOnClickListener(btnClicked);
-            //TODO: Move this code to workout screen
-//            NumberPicker pkr = v.findViewById(R.id.pkr_workout);
-//            pkr.setMinValue(0);
-//            pkr.setMaxValue(2);
-//            pkr.setDisplayedValues( new String[] { "Belgium", "France", "United Kingdom" } );
         }
-        //TODO:Remove this code after testing
-//        Athlete test = new Athlete();
-//        test.setUsername("4123590221");
-//        FirebaseHelper.downloadProfileImage(this, test);
     }
 
     private final View.OnClickListener btnClicked = new View.OnClickListener() {
@@ -126,7 +117,7 @@ public class LoginFragment extends Fragment implements FirebaseCallback {
                         delegate.setUID(mUID);
                         delegate.navigateTo(ClassActivity.TAG);
                     } else {
-                        Toast.makeText(getActivity(), "Not Logged In", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.wrong_u_or_p, Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
