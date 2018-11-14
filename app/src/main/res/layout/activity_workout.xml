@@ -7,6 +7,34 @@
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/iv_athlete"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="center"
+            android:foreground="@drawable/athlete_profile"
+            android:background="@drawable/athlete_profile"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tv_initials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:fontFamily="@font/futura_medium_condensed_bt"/>
+
+    </FrameLayout>
+
     <ListView
         android:layout_height="0dp"
         android:layout_weight="1"

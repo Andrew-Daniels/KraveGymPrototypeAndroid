@@ -2,24 +2,35 @@ package com.example.andrewdaniels.danielsandrew_kravegymandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.ArrayList;
-
+import java.util.Map.Entry;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.classes.WorkoutLogAdapter;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.BitmapHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.StringFormatter;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.WorkoutLogListener;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.models.WorkoutLogView;
+import com.google.common.collect.Multiset;
 
 import java.util.HashMap;
 
-public class WorkoutActivity extends AppCompatActivity implements FirebaseCallback {
+public class WorkoutActivity extends AppCompatActivity implements FirebaseCallback, WorkoutLogListener {
 
     public static final String TAG = "WorkoutActivity.TAG";
 
@@ -29,6 +40,10 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
     private HashMap<String, HashMap<String, String>> mAllWorkoutMusclesAndTypes = new HashMap<>();
     private HashMap<String, String> mCurrentTypesAndID = new HashMap<>();
     private HashMap<WorkoutCategory, String[]> mAllMusclesCurrentTypes = new HashMap<>();
+
+    private ArrayList<WorkoutLogView> mWorkoutModel = new ArrayList<WorkoutLogView>() {{
+        add(new WorkoutLogView(WorkoutLogView.ViewType.ADD));
+    }};
 
     private Athlete mAthlete;
 
@@ -49,8 +64,23 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
     }
 
     private void setupActivity() {
-        //TODO: Grab all of the workout types and setup the pickers.
         FirebaseHelper.getWorkoutCategories(this);
+
+        ImageView profileIV = findViewById(R.id.iv_athlete);
+        TextView initials = findViewById(R.id.tv_initials);
+
+        if (mAthlete.hasProfileImage()) {
+            Bitmap profileImage = BitmapHelper.loadImage(this, mAthlete.getUsername());
+            profileIV.setImageBitmap(profileImage);
+        } else {
+            initials.setText(StringFormatter.getInitials(mAthlete));
+        }
+        profileIV.setClipToOutline(true);
+
+
+        ListView lv = findViewById(R.id.lv_workout_log);
+        WorkoutLogAdapter adapter = new WorkoutLogAdapter(this, mWorkoutModel);
+        lv.setAdapter(adapter);
     }
 
     private void onHandleIntent(Intent intent) {
@@ -75,6 +105,7 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
         switch (item.getItemId()) {
             case R.id.btn_save:
                 //TODO: Handle save here.
+                mWorkoutModel.add(new WorkoutLogView(WorkoutLogView.ViewType.SAVE));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -128,10 +159,29 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
 
         if(array.length > 0) {
             NumberPicker pkr = findViewById(R.id.pkr_workout_type);
+            pkr.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                    String selectedWorkoutType = getWorkoutTypeFromPicker(newVal);
+                    workoutTypeChanged(selectedWorkoutType);
+                }
+            });
             pkr.setMinValue(0);
             pkr.setMaxValue(array.length - 1);
             pkr.setDisplayedValues(array);
+            pkr.setValue(0);
+            String selectedWorkoutType = getWorkoutTypeFromPicker(0);
+            workoutTypeChanged(selectedWorkoutType);
         }
+    }
+
+    private String getWorkoutTypeFromPicker(int atIndex) {
+//        for (Entry<String, String> entry : mCurrentTypesAndID.entrySet()) {
+//            entry.getValue();
+//            entry.getKey();
+//        }
+        String[] types = mAllMusclesCurrentTypes.get(WorkoutCategory.TYPE);
+        return types[atIndex];
     }
 
     @Override
@@ -150,4 +200,31 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
             }
         }
     };
+
+    @Override
+    public void addSetButtonClicked() {
+        int indexToAdd = mWorkoutModel.size() - 1;
+        String setNumber = String.valueOf(indexToAdd + 1);
+        NumberPicker pkr = findViewById(R.id.pkr_workout_type);
+        String workoutType = getWorkoutTypeFromPicker(pkr.getValue());
+        WorkoutLogView cell = new WorkoutLogView(WorkoutLogView.ViewType.SET, setNumber, "10", workoutType);
+        mWorkoutModel.add(indexToAdd, cell);
+
+        notifyDataSetHasChanged();
+    }
+
+    public void notifyDataSetHasChanged() {
+        ListView lv = findViewById(R.id.lv_workout_log);
+        WorkoutLogAdapter adapter = new WorkoutLogAdapter(this, mWorkoutModel);
+        lv.setAdapter(adapter);
+    }
+
+    private void workoutTypeChanged(String toType) {
+        for (WorkoutLogView view : mWorkoutModel) {
+            if (view.getType() == WorkoutLogView.ViewType.SET) {
+                view.setWorkoutType(toType);
+            }
+        }
+        notifyDataSetHasChanged();
+    }
 }

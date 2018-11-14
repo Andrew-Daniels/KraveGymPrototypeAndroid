@@ -25,6 +25,9 @@
     <string name="save">Save</string>
     <string name="wrong_u_or_p">Wrong username or password.</string>
     <string name="acc_exists">Account already exists</string>
+    <string name="saved">Saved</string>
+    <string name="undo">Undo</string>
+    <string name="add_a_set">Add a Set</string>
     <string-array name="account_types">
         <item>Trainer</item>
     </string-array>

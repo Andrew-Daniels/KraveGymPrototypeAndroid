@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Account;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Workout;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -54,6 +55,10 @@ public class FirebaseHelper {
         this.mCurrentWork = mCurrentWork;
         this.mUID = mUID;
         delegate = callback;
+    }
+
+    public static void logWorkoutForAthlete(FirebaseCallback callback, Athlete athlete, Workout workout) {
+
     }
 
     public static void createAccount(final FirebaseCallback callback, final String phone, final String first, final String last, final String password) {
