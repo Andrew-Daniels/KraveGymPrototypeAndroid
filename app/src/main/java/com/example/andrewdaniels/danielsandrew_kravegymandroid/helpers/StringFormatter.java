@@ -2,7 +2,11 @@ package com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers;
 
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Account;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 
 public class StringFormatter {
 
@@ -20,5 +24,11 @@ public class StringFormatter {
                 return s1.compareToIgnoreCase(s2);
             }
         };
+    }
+
+    public static String currentDateAndTimeString() {
+        DateFormat df = new SimpleDateFormat("MMddyyyyHHmm", Locale.US);
+        Date today = new Date();
+        return df.format(today);
     }
 }

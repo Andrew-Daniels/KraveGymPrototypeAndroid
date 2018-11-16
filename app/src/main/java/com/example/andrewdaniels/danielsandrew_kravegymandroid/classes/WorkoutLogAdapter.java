@@ -54,10 +54,10 @@ public class WorkoutLogAdapter extends BaseAdapter {
         }
     }
 
-    private class SaveVHI extends VHI {
+    private class UndoVHI extends VHI {
         private Button undo;
 
-        private SaveVHI(View v) {
+        private UndoVHI(View v) {
             undo = v.findViewById(R.id.btn_undo);
         }
     }
@@ -105,7 +105,7 @@ public class WorkoutLogAdapter extends BaseAdapter {
                     break;
                 case SAVE:
                     convertView = mLayoutInflator.inflate(mSaveLayoutID, parent, false);
-                    vhi = new SaveVHI(convertView);
+                    vhi = new UndoVHI(convertView);
                     convertView.setTag(vhi);
                     break;
             }
@@ -132,8 +132,15 @@ public class WorkoutLogAdapter extends BaseAdapter {
                 setVHI.workoutType.setText(view.getWorkoutType());
                 break;
             case SAVE:
-                SaveVHI saveVHI = (SaveVHI)vhi;
-
+                UndoVHI undoVHI = (UndoVHI)vhi;
+                undoVHI.undo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mContext instanceof WorkoutLogListener) {
+                            ((WorkoutLogListener)mContext).undoButtonClicked();
+                        }
+                    }
+                });
                 break;
         }
 

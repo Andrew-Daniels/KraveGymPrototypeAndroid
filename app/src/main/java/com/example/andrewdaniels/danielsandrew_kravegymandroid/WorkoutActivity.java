@@ -20,13 +20,13 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.classes.WorkoutLogAdapter;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
+import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Workout;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.BitmapHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.FirebaseHelper;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.helpers.StringFormatter;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.WorkoutLogListener;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.models.WorkoutLogView;
-import com.google.common.collect.Multiset;
 
 import java.util.HashMap;
 
@@ -44,8 +44,10 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
     private ArrayList<WorkoutLogView> mWorkoutModel = new ArrayList<WorkoutLogView>() {{
         add(new WorkoutLogView(WorkoutLogView.ViewType.ADD));
     }};
+    private int mWorkoutID;
 
     private Athlete mAthlete;
+    private String mLastSavedWorkout;
 
     private enum WorkoutCategory {
         TYPE, MUSCLE
@@ -104,8 +106,7 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btn_save:
-                //TODO: Handle save here.
-                mWorkoutModel.add(new WorkoutLogView(WorkoutLogView.ViewType.SAVE));
+                saveWorkout();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -118,6 +119,15 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
                 HashMap<String, HashMap<String, String>> categories = (HashMap<String, HashMap<String, String>>)data;
                 mAllWorkoutMusclesAndTypes = categories;
                 setupPickers();
+                break;
+            case FirebaseHelper.WORKOUT_SAVED:
+                mWorkoutModel.add(new WorkoutLogView(WorkoutLogView.ViewType.SAVE));
+                mLastSavedWorkout = (String)data;
+                notifyDataSetHasChanged();
+                break;
+            case FirebaseHelper.UNDO_WORKOUT:
+                mWorkoutModel.remove(mWorkoutModel.size() - 1);
+                notifyDataSetHasChanged();
                 break;
         }
     }
@@ -176,10 +186,6 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
     }
 
     private String getWorkoutTypeFromPicker(int atIndex) {
-//        for (Entry<String, String> entry : mCurrentTypesAndID.entrySet()) {
-//            entry.getValue();
-//            entry.getKey();
-//        }
         String[] types = mAllMusclesCurrentTypes.get(WorkoutCategory.TYPE);
         return types[atIndex];
     }
@@ -213,6 +219,11 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
         notifyDataSetHasChanged();
     }
 
+    @Override
+    public void undoButtonClicked() {
+        FirebaseHelper.undoWorkout(this, mAthlete, mLastSavedWorkout);
+    }
+
     public void notifyDataSetHasChanged() {
         ListView lv = findViewById(R.id.lv_workout_log);
         WorkoutLogAdapter adapter = new WorkoutLogAdapter(this, mWorkoutModel);
@@ -225,6 +236,23 @@ public class WorkoutActivity extends AppCompatActivity implements FirebaseCallba
                 view.setWorkoutType(toType);
             }
         }
+        for (Entry<String, String> entry : mCurrentTypesAndID.entrySet()) {
+            if (entry.getValue().equals(toType)) {
+                mWorkoutID = Integer.valueOf(entry.getKey());
+            }
+        }
         notifyDataSetHasChanged();
     }
+
+    private void saveWorkout() {
+        ArrayList<Integer> sets = new ArrayList<>();
+        for (WorkoutLogView cell : mWorkoutModel) {
+            if (cell.getType().equals(WorkoutLogView.ViewType.SET)) {
+                sets.add(Integer.valueOf(cell.getSet()));
+            }
+        }
+        Workout workoutToSave = new Workout(sets);
+        FirebaseHelper.saveWorkout(this, mAthlete, workoutToSave, mWorkoutID);
+    }
+
 }

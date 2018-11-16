@@ -8,7 +8,9 @@ import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.A
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Athlete;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.databaseContext.Workout;
 import com.example.andrewdaniels.danielsandrew_kravegymandroid.interfaces.FirebaseCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +47,8 @@ public class FirebaseHelper {
     public static final String DOWNLOAD_PROFILE_IMAGE = "FirebaseHelper.DOWNLOAD_PROFILE_IMAGE";
     public static final String PROFILE_IMAGE_UID = "FirebaseHelper.PROFILE_IMAGE_UID";
     public static final String WORKOUT_CATEGORIES = "FirebaseHelper.WORKOUT_CATEGORIES";
+    public static final String WORKOUT_SAVED = "FirebaseHelper.WORKOUT_SAVED";
+    public static final String UNDO_WORKOUT = "FirebaseHelper.UNDO_WORKOUT";
 
     private FirebaseHelper(FirebaseCallback callback, String currentWork) {
         mCurrentWork = currentWork;
@@ -57,8 +61,35 @@ public class FirebaseHelper {
         delegate = callback;
     }
 
-    public static void logWorkoutForAthlete(FirebaseCallback callback, Athlete athlete, Workout workout) {
+    public static void saveWorkout(final FirebaseCallback callback, Athlete athlete, Workout workout, Integer workoutID) {
+        final String today = StringFormatter.currentDateAndTimeString();
+        String ID = String.valueOf(workoutID);
+        String basePath = "Logged Workouts/"
+                .concat(athlete.getUsername())
+                .concat("/")
+                .concat(today)
+                .concat("/")
+                .concat(ID);
 
+        ref.child(basePath).setValue(workout).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                callback.onCallback(WORKOUT_SAVED, today);
+            }
+        });
+    }
+
+    public static void undoWorkout(final FirebaseCallback callback, Athlete athlete, String workoutTime) {
+        String basePath = "Logged Workouts/"
+                .concat(athlete.getUsername())
+                .concat("/")
+                .concat(workoutTime);
+        ref.child(basePath).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                callback.onCallback(UNDO_WORKOUT, true);
+            }
+        });
     }
 
     public static void createAccount(final FirebaseCallback callback, final String phone, final String first, final String last, final String password) {
